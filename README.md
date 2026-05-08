@@ -91,13 +91,7 @@ https://macro-markets.github.io/world-cup-2026-simulator/
 
 If you change static assets or scripts, commit to `master` and GitHub Pages will rebuild automatically.
 
-## Repository origin
-
-Migrated as a mirror from:
-
-```text
-https://github.com/raphaelcangucu/world-cup-2026-simulator
-```
+## Repository
 
 Macro Markets destination:
 
