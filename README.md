@@ -1,43 +1,110 @@
-# Simulador Copa do Mundo 2026 · macro.markets
+# World Cup 2026 Simulator · Macro Markets
 
-Simulador interativo one-page da Copa do Mundo 2026, com identidade visual do macro.markets, bracket híbrido e compartilhamento por URL + PNG.
+Interactive, static, zero-build simulator for the **FIFA World Cup 2026**.
 
-## Como rodar localmente
+Use it to fill group-stage scores, watch standings update live, project the best third-place teams, simulate the knockout bracket, reveal a champion path, and share the full scenario by URL or PNG.
+
+**Live site:** https://macro-markets.github.io/world-cup-2026-simulator/
+
+## Highlights
+
+- **Full 2026 tournament flow** — group stage, best third-place ranking, Round of 32, Round of 16, quarterfinals, semifinals, and final.
+- **Live standings engine** — tables update as scores change, including FIFA-style tie-break rules implemented in pure JavaScript.
+- **Official third-place mapping** — the bracket adjusts according to the qualified third-place groups.
+- **Shareable scenarios** — predictions are serialized into the URL hash (`#s=...`) and restored on open.
+- **PNG share card** — generate a 1200×630 tournament card with the projected champion and mini bracket.
+- **Responsive bracket UI** — connected desktop bracket and mobile-friendly phase tabs.
+- **Light/dark theme** — follows system preference and persists user choice in `localStorage`.
+- **Multilingual UI** — Portuguese, English, and Spanish strings are bundled client-side.
+- **No backend / no build** — deploys as plain static files.
+
+## Quick start
+
+Clone and serve the repository root with any static server:
 
 ```bash
-cd world-cup-simulator
+git clone https://github.com/Macro-Markets/world-cup-2026-simulator.git
+cd world-cup-2026-simulator
 python3 -m http.server 8080
-# Abra http://localhost:8080/
 ```
 
-Qualquer servidor estático serve. Zero build, zero dependências.
+Open:
 
-## Como funciona
-
-- **Fase de grupos**: digite placares ou clique no radio (força 1×0). A tabela atualiza ao vivo com os critérios oficiais de desempate da FIFA.
-- **Classificação**: os 8 melhores terceiros sobem/descem o ranking automaticamente, animados com transições FLIP.
-- **Mata-mata**: bracket mirror com conectores SVG no desktop, lista vertical por fase no mobile. O caminho do campeão destaca em verde assim que a final é definida.
-- **Compartilhar**: gera PNG 1200×630 com o campeão e a mini-chave; o modal oferece copiar link, baixar imagem ou `navigator.share` nativo (mobile).
-- **Tema**: dark/light, detecta preferência do sistema; o toggle persiste em `localStorage`.
-- **Estado**: serializado em `#s=...` e em `localStorage`. Compartilhe a URL e o palpite restaura.
-
-## Estrutura
-
+```text
+http://localhost:8080/
 ```
-styles/          # tokens.css (dark+light), base, components, sections
+
+Because the app uses ES modules, open it through a local HTTP server instead of `file://`.
+
+## How to use
+
+1. Fill group-stage scores manually, or use the winner radio button for a quick 1×0.
+2. Review each group table and the ranking of best third-place teams.
+3. Simulate knockout matches. If a match is tied, choose the winner explicitly.
+4. Once the final is decided, the champion panel shows the projected winner and title path.
+5. Use **Copy link** or **Share** to preserve and send the scenario.
+
+## Project structure
+
+```text
+index.html                 # Static app shell
+styles/
+  tokens.css               # Theme tokens for dark/light mode
+  base.css                 # Base layout and typography
+  components.css           # Reusable UI components
+  sections.css             # Page sections and responsive layouts
 scripts/
-  data/          # teams, groups, fixtures, bracket-template, third-place-map
-  engine/        # puro, sem DOM — tiebreak, standings, qualifiers, bracket
-  state/         # store, serialize, storage
-  ui/            # hero, groups, thirds, bracket, champion, share, onboarding
-  utils/         # keyboard, theme, dom helpers
-  main.js        # bootstrap
+  data/                    # Teams, fixtures, bracket template, third-place map
+  engine/                  # Pure tournament logic: standings, tie-breaks, qualifiers, bracket
+  i18n/                    # PT/EN/ES translations and venue labels
+  state/                   # Store, URL serialization, localStorage persistence
+  ui/                      # Rendering modules for hero, groups, bracket, champion, sharing
+  utils/                   # DOM, keyboard, and theme helpers
+assets/                    # Favicon and static visual assets
+group-schedule.json        # Source fixture schedule
+third-place-map.json       # Source third-place mapping
 ```
 
-## Deploy no GitHub Pages
+## Technical notes
 
-1. Faça push para a branch configurada (`main` ou `gh-pages`).
-2. Em Settings → Pages, aponte para a raiz do diretório `world-cup-simulator/`.
-3. O site fica em `https://<user>.github.io/<repo>/world-cup-simulator/`.
+- The app is intentionally framework-free: HTML, CSS, and modern JavaScript modules.
+- Tournament calculations live under `scripts/engine/` and avoid DOM coupling.
+- State is persisted both in `localStorage` and in the URL hash for sharing.
+- UI rendering is split by section so the simulator can re-render after score/theme/language changes.
+- Static hosting works from repository root; no package manager is required to run the site.
 
-Nada além de arquivos estáticos é necessário. Sem Node, sem build.
+## GitHub Pages deployment
+
+This repository is published from the `master` branch root through GitHub Pages:
+
+```text
+Source: Deploy from branch
+Branch: master
+Folder: /
+```
+
+Expected production URL:
+
+```text
+https://macro-markets.github.io/world-cup-2026-simulator/
+```
+
+If you change static assets or scripts, commit to `master` and GitHub Pages will rebuild automatically.
+
+## Repository origin
+
+Migrated as a mirror from:
+
+```text
+https://github.com/raphaelcangucu/world-cup-2026-simulator
+```
+
+Macro Markets destination:
+
+```text
+https://github.com/Macro-Markets/world-cup-2026-simulator
+```
+
+## License
+
+No license file is currently included. Add one before reusing or distributing outside Macro Markets-controlled properties.
